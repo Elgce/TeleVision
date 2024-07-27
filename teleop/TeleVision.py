@@ -244,8 +244,8 @@ if __name__ == "__main__":
     shm = shared_memory.SharedMemory(create=True, size=np.prod(img_shape) * np.uint8().itemsize)
     shm_name = shm.name
     img_array = np.ndarray((img_shape[0], img_shape[1], 3), dtype=np.uint8, buffer=shm.buf)
-
-    tv = OpenTeleVision(resolution_cropped, cert_file="../cert.pem", key_file="../key.pem")
+    toggle_streaming = Event()
+    tv = OpenTeleVision(resolution_cropped, shm.name, img_array, toggle_streaming=toggle_streaming ,ngrok=False, cert_file="./cert.pem", key_file="./key.pem")
     while True:
         # print(tv.left_landmarks)
         # print(tv.left_hand)
